@@ -1,6 +1,6 @@
 {
 	"name": "jquery.form-styler",
-	"version": "2.0.2",
+	"version": "2.0.3",
 	"main": [
 		"dist/jquery.formstyler.js",
 		"dist/jquery.formstyler.css"
@@ -9,8 +9,7 @@
 	"keywords": [
 		"jquery",
 		"form",
-		"styler",
-		"dimox"
+		"styler"
 	],
 	"license": "MIT",
 	"ignore": [

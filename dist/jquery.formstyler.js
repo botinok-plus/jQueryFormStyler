@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v2.0.2
- * https://github.com/Dimox/jQueryFormStyler
+ * jQuery Form Styler v2.0.3
+ * https://github.com/botinok-plus/jQueryFormStyler
  *
- * Copyright 2012-2017 Dimox (http://dimox.name/)
+ * Copyright 2012-2017 Botinok+ (http://botinok.plus/)
  * Released under the MIT license.
  *
- * Date: 2017.10.22
+ * Date: 2018.02.11
  *
  */
 
@@ -443,6 +443,7 @@
 									liClasses = '',
 									id = '',
 									title = '',
+									value = '',
 									dataList = '',
 									optionClass = '',
 									optgroupClass = '',
@@ -454,6 +455,7 @@
 							if (op.is(':selected:disabled')) liClass = selDis;
 							if (op.attr('id') !== undefined && op.attr('id') !== '') id = ' id="' + op.attr('id') + opt.idSuffix + '"';
 							if (op.attr('title') !== undefined && option.attr('title') !== '') title = ' title="' + op.attr('title') + '"';
+							if (op.attr('value') !== undefined && option.attr('value') !== '') value = ' data-value="' + op.attr('value') + '"';
 							if (op.attr('class') !== undefined) {
 								optionClass = ' ' + op.attr('class');
 								dataJqfsClass = ' data-jqfs-class="' + op.attr('class') + '"';
@@ -465,7 +467,7 @@
 							}
 
 							if ( (liClass + optionClass) !== '' )   liClasses = ' class="' + liClass + optionClass + '"';
-							li = '<li' + dataJqfsClass + dataList + liClasses + title + id + '>'+ op.html() +'</li>';
+							li = '<li' + dataJqfsClass + dataList + liClasses + title + value + id + '>'+ op.html() +'</li>';
 
 							// если есть optgroup
 							if (op.parent().is('optgroup')) {
@@ -486,6 +488,7 @@
 						var att = new Attributes();
 						var searchHTML = '';
 						var selectPlaceholder = el.data('placeholder');
+						var selectValueText = el.data('value-text');
 						var selectSearch = el.data('search');
 						var selectSearchLimit = el.data('search-limit');
 						var selectSearchNotFound = el.data('search-not-found');
@@ -493,6 +496,7 @@
 						var selectSmartPositioning = el.data('smart-positioning');
 
 						if (selectPlaceholder === undefined) selectPlaceholder = opt.selectPlaceholder;
+						if (selectValueText === undefined) selectValueText = false;
 						if (selectSearch === undefined || selectSearch === '') selectSearch = opt.selectSearch;
 						if (selectSearchLimit === undefined || selectSearchLimit === '') selectSearchLimit = opt.selectSearchLimit;
 						if (selectSearchNotFound === undefined || selectSearchNotFound === '') selectSearchNotFound = opt.selectSearchNotFound;
@@ -773,7 +777,7 @@
 						li.filter(':not(.disabled):not(.optgroup)').click(function() {
 							el.focus();
 							var t = $(this);
-							var liText = t.text();
+							var liText = !!selectValueText ? t.data('value') : t.text();
 							if (!t.is('.selected')) {
 								var index = t.index();
 								index -= t.prevAll('.optgroup').length;
@@ -801,7 +805,7 @@
 
 						// изменение селекта
 						el.on('change.styler', function() {
-							divText.text(option.filter(':selected').text()).removeClass('placeholder');
+							divText.text(!!selectValueText ? option.filter(':selected').data('value') : option.filter(':selected').text()).removeClass('placeholder');
 							li.removeClass('selected sel').not('.optgroup').eq(el[0].selectedIndex).addClass('selected sel');
 							// добавляем класс, показывающий изменение селекта
 							if (option.first().text() != li.filter('.selected').text()) {
@@ -823,7 +827,7 @@
 							if (el.val() === '') {
 								divText.text(selectPlaceholder).addClass('placeholder');
 							} else {
-								divText.text(option.filter(':selected').text());
+								divText.text(!!selectValueText ? option.filter(':selected').data('value') : option.filter(':selected').text());
 							}
 							li.removeClass('selected sel').not('.optgroup').eq(el[0].selectedIndex).addClass('selected sel');
 							// вверх, влево, Page Up, Home
