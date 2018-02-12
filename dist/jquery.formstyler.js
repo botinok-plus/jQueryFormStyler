@@ -474,7 +474,9 @@
 								if (op.parent().attr('class') !== undefined) optgroupClass = ' ' + op.parent().attr('class');
 								li = '<li' + dataJqfsClass + dataList + ' class="' + liClass + optionClass + ' option' + optgroupClass + '"' + title + id + '>'+ op.html() +'</li>';
 								if (op.is(':first-child')) {
-									li = '<li class="optgroup' + optgroupClass + '">' + op.parent().attr('label') + '</li>' + li;
+									li = '<li class="optgroup' + optgroupClass + '"><span>' + op.parent().attr('label') + '</span>' + '<ul class="sub-options">' + li;
+								} else if(op.is(':last-child')) {
+									li = li + '</ul></li>';
 								}
 							}
 
