@@ -784,7 +784,9 @@
 								var index = t.index();
 								index -= t.prevAll('.optgroup').length;
 								t.addClass('selected sel').siblings().removeClass('selected sel');
-								option.prop('selected', false).eq(index).prop('selected', true);
+								option.prop('selected', false).filter(function(index, el) {
+									return $(el).text() === t.text();
+								}).prop('selected', true);
 								selectedText = liText;
 								divText.text(liText);
 
