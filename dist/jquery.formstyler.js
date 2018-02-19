@@ -409,6 +409,7 @@
 
 					// запрещаем прокрутку страницы при прокрутке селекта
 					function preventScrolling(selector) {
+						selector = typeof selector.currentTarget != 'undefined' ? $(selector.currentTarget) : selector;
 
 						var scrollDiff = selector.prop('scrollHeight') - selector.outerHeight(),
 								wheelDelta = null,
@@ -423,7 +424,6 @@
 							 */
 							wheelDelta = (e.originalEvent.detail < 0 || e.originalEvent.wheelDelta > 0) ? 1 : -1; // направление прокрутки (-1 вниз, 1 вверх)
 							scrollTop = selector.scrollTop(); // позиция скролла
-
 							if ((scrollTop >= scrollDiff && wheelDelta < 0) || (scrollTop <= 0 && wheelDelta > 0)) {
 								e.stopPropagation();
 								e.preventDefault();
@@ -479,6 +479,8 @@
 									li = li + '</ul></li>';
 								}
 							}
+
+							
 
 							list += li;
 						}
@@ -765,7 +767,11 @@
 								}
 							}
 
-							preventScrolling(ul);
+							
+							//preventScrolling(ul);
+
+							if(ul.find('.sub-options').length > 0) ul.find('.sub-options').hover(preventScrolling);
+							else preventScrolling(ul);
 
 						}); // end divSelect.click()
 
